@@ -1,0 +1,13 @@
+{% extends 'cinema/base.html' %}
+{% block title %}Жанры{% endblock %}
+
+{% block content %}
+    <h1>Жанры</h1>
+
+    <ul style="list-style-type: decimal">
+        {% for genre in genres_list %}
+            <li><a href="{% url 'film_by_genre' genre.id %}">{{genre}}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

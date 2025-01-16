@@ -1,0 +1,36 @@
+{% extends 'cinema/base.html' %}
+{% block title %}Фильмы{% endblock %}
+
+{% block content %}
+    <h1>Детали фильма:</h1>
+    <p>Название - {{ film.name }}</p>
+    <p>Описание - {{ film.description }}</p>
+    <p>Дата релиза - {{ film.release_date }}</p>
+    <p>Продолжительность - {{ film.duration }} минут</p>
+    
+    <p>Жанр -
+    {% for genre in genres %}
+        | <a href="{% url 'film_by_genre' genre.id %}">{{genre}}</a> |
+
+        {% empty %}
+            <p>Нет жанров для этого фильма.
+    {% endfor %}
+    </p>
+    
+    <p>Режиссёр:
+    {% for director in directors %}
+        | <a href="{% url 'director_detail' director.id %}">{{director}}</a> |
+
+        {% empty %}
+            <p>Нет режиссёров для этого фильма.
+    {% endfor %}
+    </p>
+    
+    <p>Актёры:
+    {% for actor in actors %}
+        | <a href="{% url 'actor_detail' actor.id %}">{{actor}}</a> |
+        {% empty %}
+            <p>Нет актёров для этого фильма.
+    {% endfor %}
+    </p>
+{% endblock %}

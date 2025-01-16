@@ -1,0 +1,21 @@
+{% extends 'cinema/base.html' %}
+{% load static %}
+{% block title %}{{ director.name }}{% endblock %}
+
+{% block content %}
+    <h1>Информация о режиссёре:</h1>
+    
+    <p>Имя - {{ director.name }}</p>
+    <p>Возраст - {{ director.age }}</p>
+    <p>Пол - {{ director.sex }}</p>
+    <img src="{% static director.image %}" alt="Тут должно быть фото режиссёра, но мне лень" width="400" height="auto">
+    <h2>Режиссировал фильмы:</h2>
+    <ul style="list-style-type: decimal">
+        {% for film in films %}
+            <li><a href="{% url 'film_detail' film.id %}">{{ film.name }}</a> - ({{ film.release_date }})</li>
+        {% empty %}
+            <li>Нет фильмов для этого режиссёра.</li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'cinema/base.html' %}
+{% block title %}Мои билеты{% endblock %}
+
+{% block content %}
+    <h1>Мои билеты</h1>
+    {% if error %}
+        <p>{{ error }}</p>
+
+    {% else %}
+        <ul style="list-style-type: decimal">
+            {% for ticket in tickets %}
+                <li style="margin-bottom: 20px">Фильм:
+                    <a href="{% url 'film_detail' ticket.session.film.id %}" >{{ ticket.session.film }}.</a> <br>
+                    <span>Время начала: {{ ticket.session.start_time }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

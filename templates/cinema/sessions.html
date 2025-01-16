@@ -1,0 +1,14 @@
+{% extends 'cinema/base.html' %}
+{% block title %}Сеансы{% endblock %}
+
+{% block content %}
+    <h1>Сейчас в кино:</h1>
+    
+    <ul>
+        {% for session in sessions_list %}
+            <li><a href="{% url 'session_detail' session.id %}">{{ session.film }}</a></li>
+        {% endfor %}
+
+    </ul>
+
+{% endblock %}

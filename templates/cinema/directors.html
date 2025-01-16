@@ -1,0 +1,13 @@
+{% extends 'cinema/base.html' %}
+{% block title %}Режиссёры{% endblock %}
+
+{% block content %}
+    <h1>Режиссёры</h1>
+
+    <ul style="list-style-type: decimal">
+        {% for director in directors_list %}
+            <li><a href="{% url 'director_detail' director.id %}">{{director}}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

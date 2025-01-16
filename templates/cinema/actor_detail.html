@@ -1,0 +1,21 @@
+{% extends 'cinema/base.html' %}
+{% load static %}
+{% block title %}{{ actor.name }}{% endblock %}
+
+{% block content %}
+    <h1>Информация об актёре:</h1>
+    
+    <p>Имя - {{ actor.name }}</p>
+    <p>Возраст - {{ actor.age }}</p>
+    <p>Пол - {{ actor.sex }}</p>
+    <img src="{% static actor.image %}" alt="Фото" width="400" height="auto">
+    <h2>Фильмы с участием актёра:</h2>
+    <ul>
+        {% for film in films %}
+            <li><a href="{% url 'film_detail' film.id %}">{{ film.name }}</a> - ({{ film.release_date }})</li>
+        {% empty %}
+            <li>Нет фильмов для этого актёра.</li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}

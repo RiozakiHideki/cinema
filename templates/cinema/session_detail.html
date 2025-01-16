@@ -1,0 +1,32 @@
+{% extends 'cinema/base.html' %}
+{% load static %}
+{% block title %}{{ session.film }}{% endblock %}
+
+{% block content %}
+    <h1>Информация о сеансе:</h1>
+    <p>Название фильма - <a href="{% url 'film_detail' session.film.id %}">{{ session.film.name }}</a></p>
+    <p>Начало сеанса - {{ session.start_time }}</p>
+    <p>Конец сеанса - {{ session.end_time }}</p>
+    <p>Стоимость билета - {{ session.ticket_price }} рублей<p>
+    {% if session.tickets_total > 0 %}
+
+        <p>Осталось билетов - {{ session.tickets_total }}</p> <br>
+
+        {% if user.is_authenticated %}
+            <form action="{% url 'purchase_ticket' session.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Купить билет</button>
+            </form>
+
+            {% else %}
+                <p>Вы не вошли в систему
+                    <a href="{% url 'login' %}">Войти</a>
+                    <a href="{% url 'registration' %}">Зарегистрироваться</a>
+                </p>
+        {% endif %}
+
+        {% else %}
+            <p>К сожалению, билетов не осталось.</p>
+    {% endif %}
+
+{% endblock %}
