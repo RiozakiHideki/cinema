@@ -6,7 +6,57 @@ from .forms import RegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .serializers import (FilmSerializer, ActorSerializer, 
+                        DirectorSerializer, GenreSerializer,
+                        SessionSerializer, TicketSerializer)
 
+
+
+class FilmViewSet(viewsets.ModelViewSet):
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
+    filterset_fields = ['genres', 'release_date']
+
+class ActorViewSet(viewsets.ModelViewSet):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+class DirectorViewSet(viewsets.ModelViewSet):
+    queryset = Director.objects.all()
+    serializer_class = DirectorSerializer
+
+class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
+class SessionViewSet(viewsets.ModelViewSet):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+    
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def purchase_ticket(self, request, pk=None):
+        session = self.get_object()
+        if session.tickets_available > 0:
+            Ticket.objects.create(
+                session=session,
+                user=request.user,
+                ticket_price=session.ticket_price
+            )
+            session.tickets_available -= 1
+            session.save()
+            return Response({'status': 'ticket purchased'}, status=status.HTTP_201_CREATED)
+        return Response({'error': 'No tickets available'}, status=status.HTTP_400_BAD_REQUEST)
+
+class TicketViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = TicketSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Ticket.objects.none()  # Add this line
+
+    def get_queryset(self):
+        return Ticket.objects.filter(user=self.request.user)
 
 def main(request):
     return render(request, 'cinema/main.html')
