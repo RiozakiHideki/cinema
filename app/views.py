@@ -18,7 +18,6 @@ from .serializers import (FilmSerializer, ActorSerializer,
 class FilmViewSet(viewsets.ModelViewSet):
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
-    filterset_fields = ['genres', 'release_date']
 
 class ActorViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all()

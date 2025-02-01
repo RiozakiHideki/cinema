@@ -20,6 +20,9 @@ class BaseModel(models.Model):
 class Actor(BaseModel):
     films = models.ManyToManyField('Film', related_name='actor_films')
 
+    def __str__(self):
+        return self.films
+
 class Director(BaseModel):
     films = models.ManyToManyField('Film', related_name='director_films')
 

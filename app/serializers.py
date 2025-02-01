@@ -10,7 +10,7 @@ class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
         fields = ['id', 'name', 'age', 'sex', 'image', 'films']
-        
+
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Director
@@ -32,10 +32,10 @@ class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
         fields = ['id', 'film', 'start_time', 'end_time', 
-                 'ticket_price', 'tickets_available']
+                 'ticket_price',]
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ['id', 'session', 'user', 'purchase_date']
-        read_only_fields = ['user', 'purchase_date']
+        fields = ['id', 'session', 'user']
+        read_only_fields = ['user']
