@@ -8,7 +8,7 @@ class BaseModel(models.Model):
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     sex = models.CharField(max_length=6)
-    image = models.ImageField(upload_to=f'{BASE_DIR}/images/', default='')
+    image = models.ImageField(upload_to='images/', default='')
 
     class Meta:
         abstract = True
