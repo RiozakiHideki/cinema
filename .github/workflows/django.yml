@@ -23,10 +23,10 @@ jobs:
     - name: run docker container
       run: docker run -d -p 8080:8080 cinema
     - name: wait for container to start
-      run: sleep 15
+      run: sleep 10
     - name: test app endpoint
       run: | 
-        response = $(curl -s http://localhost:8080)
+        response=$(curl -s http://localhost:8080)
         echo "Response: $response"
     - name: stop container
       run: docker stop cinema && docker rm cinema
