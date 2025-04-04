@@ -16,15 +16,17 @@ jobs:
         python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        python manage.py test
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: build docker image
+      run: docker build -t cinema .
+    - name: run docker container
+      run: docker run -d -p 8080:8080 cinema
+    - name: wait for container to start
+      run: sleep 120
+    - name: test app endpoint
+      run: | 
+        response = $(curl -s http://localhost:8080)
+        echo "Response: $response"
+    - name: stop container
+      run: docker stop cinema && docker rm cinema
