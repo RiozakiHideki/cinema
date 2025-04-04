@@ -21,7 +21,7 @@ jobs:
     - name: build docker image
       run: docker build -t cinema .
     - name: run docker container
-      run: docker run --rm -d -p 8080:8080 cinema
+      run: docker run --name cinema_container --rm -d -p 8080:8080 cinema
     - name: wait for container to start
       run: sleep 10
     - name: test app endpoint
@@ -29,4 +29,4 @@ jobs:
         response=$(curl -s http://localhost:8080)
         echo "Response: $response"
     - name: stop container
-      run: docker stop cinema
+      run: docker stop cinema_container
